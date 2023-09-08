@@ -10,10 +10,9 @@ db.once("open", async () => {
 
     await cleanDB("User", "users");
 
-    await createUsers();
+    await User.create(userSeeds);
 
     for (let i = 0; i < thoughtSeeds.length; i++) {
-      const { _id, thoughtAuthor } = await Thought.create(thoughtSeeds[i]);
       const user = await User.findOneAndUpdate(
         { username: thoughtAuthor },
         {
@@ -22,6 +21,7 @@ db.once("open", async () => {
           },
         }
       );
+      const { _id, thoughtAuthor } = await Thought.create(thoughtSeeds[i]);
     }
   } catch (err) {
     console.error(err);
