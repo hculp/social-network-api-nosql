@@ -1,0 +1,32 @@
+{
+  "name": "develop",
+  "version": "1.0.0",
+  "description": "Mongodb back-end project for Social Network API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hculp/social-network-api-nosql.git"
+  },
+  "keywords": [
+    "MongoDB",
+    "Mongoose",
+    "Express.js",
+    "ODM"
+  ],
+  "author": "Houston Culpepper",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hculp/social-network-api-nosql/issues"
+  },
+  "homepage": "https://github.com/hculp/social-network-api-nosql#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.13.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
