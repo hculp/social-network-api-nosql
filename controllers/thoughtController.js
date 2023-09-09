@@ -61,7 +61,6 @@ module.exports = {
     }
   },
   // delete thought by id
-  // If a thought is deleted, we also need to delete it from the associated User's thoughts array.
   async deleteThought(req, res) {
     try {
       const thought = await Thought.findOneAndDelete({
@@ -70,16 +69,6 @@ module.exports = {
 
       if (!thought) {
         return res.status(404).json({ message: "No thought with this id!" });
-      }
-
-      const user = await User.findOneAndUpdate(
-        { thoughts: req.params.id },
-        { $pull: { thoughts: req.params.id } },
-        { new: true }
-      );
-
-      if (!user) {
-        return res.status(404).json({ message: "No user with this id!" });
       }
 
       res.status(200).json({ message: "Thought successfully deleted!" });
@@ -111,7 +100,7 @@ module.exports = {
     try {
       const thought = await Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
-        { $pull: { reactions: { reactionId: req.params.reactionId } } },
+        { $pull: { reactions: { _id: req.params.reactionId } } },
         { new: true, runValidators: true }
       );
 
