@@ -13,15 +13,15 @@ db.once("open", async () => {
     await User.create(userSeeds);
 
     for (let i = 0; i < thoughtSeeds.length; i++) {
+      const { _id, username } = await Thought.create(thoughtSeeds[i]);
       const user = await User.findOneAndUpdate(
-        { username: thoughtAuthor },
+        { username: username },
         {
           $addToSet: {
             thoughts: _id,
           },
         }
       );
-      const { _id, thoughtAuthor } = await Thought.create(thoughtSeeds[i]);
     }
   } catch (err) {
     console.error(err);
