@@ -5,7 +5,7 @@ module.exports = {
   async getThoughts(req, res) {
     try {
       const thoughts = await Thought.find();
-      res.json(thoughts);
+      res.status(200).json(thoughts);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -13,11 +13,11 @@ module.exports = {
   // get one thought by id
   async getThoughtById(req, res) {
     try {
-      const thought = await Thought.findOne({ _id: req.params.id });
+      const thought = await Thought.findOne({ _id: req.params.thoughtId });
       if (!thought) {
         return res.status(404).json({ message: "No thought with this id!" });
       }
-      res.json(thought);
+      res.status(200).json(thought);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -37,7 +37,7 @@ module.exports = {
         return res.status(404).json({ message: "No user with this id!" });
       }
 
-      res.json("Thought successfully created!");
+      res.status(200).json("Thought successfully created!");
     } catch (err) {
       res.status(500).json(err);
     }
@@ -47,7 +47,7 @@ module.exports = {
   async updateThought(req, res) {
     try {
       const thought = await Thought.findOneAndUpdate(
-        { _id: req.params.id },
+        { _id: req.params.thoughtId },
         { $set: req.body },
         { new: true, runValidators: true }
       );
@@ -55,7 +55,7 @@ module.exports = {
       if (!thought) {
         return res.status(404).json({ message: "No thought with this id!" });
       }
-      res.json(thought);
+      res.status(200).json(thought);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -64,7 +64,9 @@ module.exports = {
   // If a thought is deleted, we also need to delete it from the associated User's thoughts array.
   async deleteThought(req, res) {
     try {
-      const thought = await Thought.findOneAndDelete({ _id: req.params.id });
+      const thought = await Thought.findOneAndDelete({
+        _id: req.params.thoughtId,
+      });
 
       if (!thought) {
         return res.status(404).json({ message: "No thought with this id!" });
@@ -80,7 +82,7 @@ module.exports = {
         return res.status(404).json({ message: "No user with this id!" });
       }
 
-      res.json({ message: "Thought successfully deleted!" });
+      res.status(200).json({ message: "Thought successfully deleted!" });
     } catch (err) {
       res.status(500).json(err);
     }
@@ -90,7 +92,7 @@ module.exports = {
   async addReaction(req, res) {
     try {
       const thought = await Thought.findOneAndUpdate(
-        { _id: req.params.id },
+        { _id: req.params.thoughtId },
         { $addToSet: { reactions: req.body } },
         { new: true, runValidators: true }
       );
@@ -98,7 +100,7 @@ module.exports = {
       if (!thought) {
         return res.status(404).json({ message: "No thought with this id!" });
       }
-      res.json(thought);
+      res.status(200).json(thought);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -108,7 +110,7 @@ module.exports = {
   async deleteReaction(req, res) {
     try {
       const thought = await Thought.findOneAndUpdate(
-        { _id: req.params.id },
+        { _id: req.params.thoughtId },
         { $pull: { reactions: { reactionId: req.params.reactionId } } },
         { new: true, runValidators: true }
       );
@@ -116,7 +118,7 @@ module.exports = {
       if (!thought) {
         return res.status(404).json({ message: "No thought with this id!" });
       }
-      res.json(thought);
+      res.status(200).json(thought);
     } catch (err) {
       res.status(500).json(err);
     }
